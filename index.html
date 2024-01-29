@@ -14,8 +14,107 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col">
+        <div class="col mt-5">
           <h1 class="text-center">Finance Calculator</h1>
+        </div>
+      </div>
+
+      <!-- Mortgage Form -->
+
+      <div class="row">
+        <div class="col md-6">
+          <label class="form-label">Borrow Amount</label>
+          <div class="input-group">
+            <span class="input-group-text">£</span>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Amount (to the nearest pound)"
+            />
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
+
+        <div class="col md-6">
+          <label class="form-label">Interest Rate</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Interest rate"
+            />
+            <span class="input-group-text">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col md-6">
+          <label class="form-label">Deposit <span>10%</span></label>
+          <div class="input-group">
+            <span class="input-group-text">£</span>
+            <input type="text" class="form-control" aria-label="Deposit" />
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
+
+        <div class="col md-6">
+          <label class="form-label">Borrow Time</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Interest rate"
+            />
+            <span class="input-group-text">years</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mortgage Form End -->
+
+      <!-- Monthly Expenses -->
+      <div class="row mt-4">
+        <div class="col lg-4">
+          <h2>Monthly Expenses</h2>
+        </div>
+
+        <div class="col lg-8">
+          <div class="alert alert-warning" role="alert">
+            The grey fields are auto calculated. Use the
+            <em>New Expense</em> button to add custom monthly expenses.
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col md-6">
+          <label class="form-label">Mortgage Monthly</label>
+          <input type="text" class="form-control" disabled />
+        </div>
+
+        <div class="col md-6">
+          <label class="form-label">House Rates</label>
+          <input type="text" class="form-control" disabled />
+        </div>
+      </div>
+
+      <!-- Custom Fields -->
+      <div class="row" id="customFields">
+        <!-- <div class="col md-6">
+          <input type="text" class="form-control" placeholder="Expense Name" />
+        </div>
+
+        <div class="col md-6">
+          <input type="text" class="form-control" placeholder="Expense Value" />
+        </div> -->
+      </div>
+
+      <div class="row mt-4">
+        <div class="col">
+          <button id="newFieldButton" type="button" class="btn btn-success">
+            New Expense
+          </button>
         </div>
       </div>
     </div>
@@ -25,5 +124,45 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"
   ></script>
-  <script src="./js/index.js"></script>
+  <script type="text/javascript">
+    function calculateMortgageMonthlyPayments() {
+      const interestRate = 4.4 / 100;
+      const borrowedAmount = 135000;
+      const years = 40;
+      const numberOfPayments = years * 12;
+
+      const payments =
+        borrowedAmount *
+        ((interestRate * Math.pow(1 + interestRate, numberOfPayments)) /
+          (Math.pow(1 + interestRate, numberOfPayments) - 1));
+
+      alert(payments);
+    }
+
+    function createInputElement(placeholder) {
+      const inputField = document.createElement("input");
+      inputField.setAttribute("type", "text");
+      inputField.setAttribute("placeholder", placeholder);
+      inputField.className = "form-control";
+
+      const wrappingDiv = document.createElement("div");
+      wrappingDiv.className = "col-md-6 mt-4";
+
+      wrappingDiv.appendChild(inputField);
+
+      return wrappingDiv;
+    }
+
+    function createNewField() {
+      const customFieldContainer = document.getElementById("customFields");
+      const expenseName = createInputElement("Expense Name");
+      const expenseValue = createInputElement("Expense Value");
+
+      customFieldContainer.appendChild(expenseName);
+      customFieldContainer.appendChild(expenseValue);
+    }
+
+    const newFieldButton = document.getElementById("newFieldButton");
+    newFieldButton.onclick = createNewField;
+  </script>
 </html>
